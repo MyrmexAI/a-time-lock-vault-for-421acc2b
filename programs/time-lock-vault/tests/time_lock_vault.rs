@@ -172,7 +172,7 @@ impl Env {
         }
     }
 
-    /// `signer_is_owner = false` models a caller that names the real owner's lock but does not hold its key.
+    /// `lock_owner` selects whose lock PDAs are used; `signer` is who signs and receives the rent.
     fn withdraw_ix(
         &self,
         lock_owner: &Address,

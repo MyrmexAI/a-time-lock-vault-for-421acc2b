@@ -1,0 +1,31 @@
+[package]
+name = "time-lock-vault"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[dependencies]
+pinocchio = { version = "0.11", features = ["cpi"] }
+pinocchio-system = "0.6"
+pinocchio-token = "0.6"
+
+# Host builds (unit tests / check) need the curve25519 backend for PDA derivation.
+[target.'cfg(not(any(target_os = "solana", target_arch = "bpf")))'.dependencies]
+solana-address = { version = "2", features = ["curve25519"] }
+
+[dev-dependencies]
+litesvm = "0.18"
+solana-clock = { version = "4", features = ["sysvar"] }
+solana-instruction = "4"
+solana-instruction-error = "2"
+solana-keypair = "3"
+solana-signer = "3"
+solana-system-interface = { version = "3", features = ["bincode"] }
+solana-transaction = "4"
+solana-transaction-error = "3"
+
+[lints.rust.unexpected_cfgs]
+level = "warn"
+check-cfg = ['cfg(target_os, values("solana"))']
